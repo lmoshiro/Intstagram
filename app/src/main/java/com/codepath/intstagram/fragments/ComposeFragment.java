@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.codepath.intstagram.BitmapScaler;
 import com.codepath.intstagram.Post;
 import com.codepath.intstagram.R;
 import com.parse.ParseException;
@@ -36,11 +37,9 @@ public class ComposeFragment extends Fragment {
     private Button btnCaptureImage;
     private ImageView ivPostImage;
     private Button btnSubmit;
-
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
     File photoFile;
-
     private final String TAG = "ComposeFragment";
 
     @Nullable
@@ -60,14 +59,12 @@ public class ComposeFragment extends Fragment {
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onLaunchCamera(v);
             }
         });
-
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +77,6 @@ public class ComposeFragment extends Fragment {
                 savePost(description, user, photoFile);
             }
         });
-
     }
 
     private void savePost(String description, ParseUser parseUser, File photoFile) {
@@ -88,7 +84,6 @@ public class ComposeFragment extends Fragment {
         post.setDescription(description);
         post.setUser(parseUser);
         post.setImage(new ParseFile(photoFile));
-
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -111,13 +106,11 @@ public class ComposeFragment extends Fragment {
         // Create a File reference to access to future access
         photoFile = getPhotoFileUri(photoFileName);
         ParseFile parseFile = new ParseFile(photoFile);
-
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
         Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
         // So as long as the result is not null, it's safe to use the intent.
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
@@ -132,15 +125,12 @@ public class ComposeFragment extends Fragment {
         // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
             Log.d(TAG, "failed to create directory");
         }
-
         // Return the file target for the photo based on filename
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
         return file;
     }
 
@@ -148,19 +138,17 @@ public class ComposeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-
+                takenImage = BitmapScaler.scaleToFill(takenImage, ivPostImage.getWidth(), ivPostImage.getHeight());
                 ivPostImage.setImageBitmap(takenImage);
-
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
 //                 ImageView ivPreview = (ImageView) findViewById(R.id.ivPreview);
 //                ivPreview.setImageBitmap(resizedBitmap);
-            } else { // Result was a failure
+            } else {
+                // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 }

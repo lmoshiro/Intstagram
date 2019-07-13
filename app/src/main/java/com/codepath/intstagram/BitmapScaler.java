@@ -11,14 +11,12 @@ public class BitmapScaler
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
     }
 
-
     // scale and keep aspect ratio
     public static Bitmap scaleToFitHeight(Bitmap b, int height)
     {
         float factor = height / (float) b.getHeight();
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factor), height, true);
     }
-
 
     // scale and keep aspect ratio
     public static Bitmap scaleToFill(Bitmap b, int width, int height)
@@ -29,7 +27,6 @@ public class BitmapScaler
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorToUse),
                 (int) (b.getHeight() * factorToUse), true);
     }
-
 
     // scale and don't keep aspect ratio
     public static Bitmap strechToFill(Bitmap b, int width, int height)

@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnSigup);
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,10 +52,7 @@ public class MainActivity extends AppCompatActivity {
             final Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         }
-
-
     }
-
 
     private void login(String username, String password) {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
@@ -65,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("LoginActivity", "Login Successful");
 
-                    final Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    final Intent intent = new Intent(MainActivity.this, PhotoActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

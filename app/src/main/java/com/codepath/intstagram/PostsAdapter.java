@@ -62,7 +62,6 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
         private TextView tvHandle;
         private ImageView ivImage;
         private TextView tvDescription;
@@ -84,7 +83,6 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
             ivComment = itemView.findViewById(R.id.ivComment);
             ivMessage = itemView.findViewById(R.id.ivMessage);
             ivBookmark = itemView.findViewById(R.id.ivBookmark);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -119,7 +117,6 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
         }
 
         public void bind(Post post) {
-
             if(!(isPostFragment)) {
                 tvTimestamp.setVisibility(View.GONE);
                 tvHandle.setVisibility(View.GONE);
@@ -144,10 +141,6 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
                      .into(ivImage);
 
             }
-
-
-
         }
-
     }
 }

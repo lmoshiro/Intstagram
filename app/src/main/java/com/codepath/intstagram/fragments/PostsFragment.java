@@ -28,25 +28,23 @@ public class PostsFragment extends Fragment {
     protected RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> mPosts;
-    private SwipeRefreshLayout swipeContainer;
-
+    protected SwipeRefreshLayout swipeContainer;
+    public boolean isPostFragment = true;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle saveInstanceState) {
 
         return inflater.inflate(R.layout.fragment_posts, container, false);
-
-}
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceStat) {
         rvPosts = view.findViewById(R.id.rvPosts);
         mPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), mPosts);
+        adapter = new PostsAdapter(getActivity(), mPosts, isPostFragment);
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -94,7 +92,12 @@ public class PostsFragment extends Fragment {
                 }
             }
         });
+        adapter.clear();
+        // ...the data has come back, add new items to your adapter...
+        adapter.addAll(mPosts);
         swipeContainer.setRefreshing(false);
     }
+
+
 
 }

@@ -7,7 +7,12 @@
     <!--app:showAsAction="ifRoom"-->
     <!--android:title="Compose">-->
     <!--</item>-->
-
+    <item
+        android:id="@+id/miCompose"
+        android:icon="@mipmap/camera"
+        app:showAsAction="ifRoom"
+        android:title="Compose">
+    </item>
 
 
 

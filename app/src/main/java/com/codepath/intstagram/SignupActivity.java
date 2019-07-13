@@ -24,7 +24,6 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
         etNewUsername = findViewById(R.id.etNewUsername);
         etNewPassword = findViewById(R.id.etNewPassword);
         etEmail = findViewById(R.id.etEmail);
@@ -44,12 +43,9 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
-    private void signup(String username, String password, String email,
-                        String phoneNumber) {
+    private void signup(String username, String password, String email, String phoneNumber) {
         // Create the ParseUser
         ParseUser user = new ParseUser();
         // Set core properties
@@ -73,6 +69,5 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
